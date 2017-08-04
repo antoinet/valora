@@ -1,5 +1,6 @@
 
 #include <ESP8266WiFi.h>
+#include "oui.h"
 
 extern "C" {
   #include "user_interface.h"
@@ -51,7 +52,6 @@ void setup() {
   delay(500);
   wifi_set_opmode(STATION_MODE);
   wifi_promiscuous_enable(1);
-
 }
 
 void loop() {
@@ -60,9 +60,10 @@ void loop() {
   wifi_set_channel(channel);
 
   // randomize SRC MAC
-  packet[10] = random(256);
-  packet[11] = random(256);
-  packet[12] = random(256);
+  int idx = random(sizeof(oui)/3);
+  packet[10] = oui[idx][0];
+  packet[11] = oui[idx][1];
+  packet[12] = oui[idx][2];
   packet[13] = random(256);
   packet[14] = random(256);
   packet[15] = random(256);
