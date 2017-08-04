@@ -7,6 +7,7 @@ extern "C" {
 }
 
 byte channel;
+byte t = 0;
 String alfa = "1234567890qwertyuiopasdfghjkklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM_";
 
 uint8_t packet[128] = {
@@ -50,6 +51,7 @@ uint8_t packet[128] = {
 
 void setup() {
   delay(500);
+  pinMode(LED_BUILTIN, OUTPUT);
   wifi_set_opmode(STATION_MODE);
   wifi_promiscuous_enable(1);
 }
@@ -86,4 +88,7 @@ void loop() {
   wifi_send_pkt_freedom(packet, 87, 0);
   wifi_send_pkt_freedom(packet, 87, 0);
   delay(1);
+
+  // do some blinking
+  digitalWrite(LED_BUILTIN, t++ & 0x80);
 }
